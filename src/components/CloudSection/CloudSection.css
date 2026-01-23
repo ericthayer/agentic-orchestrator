@@ -1,0 +1,103 @@
+.cloud-section-wrapper {
+  position: relative;
+  width: 100%;
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cloud-canvas-container {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+.cloud-canvas-container canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.cloud-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+  pointer-events: none;
+  color: #fff;
+}
+
+.cloud-title,
+.cloud-description,
+.cloud-cta {
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(8px);
+  transition: opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 1s cubic-bezier(0.2, 0.8, 0.2, 1),
+              filter 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cloud-title.visible,
+.cloud-description.visible,
+.cloud-cta.visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.cloud-title {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  margin-bottom: 2rem;
+  max-width: 900px;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.02em;
+}
+
+.cloud-description {
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 550px;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  font-weight: 400;
+}
+
+.cloud-cta {
+  pointer-events: auto;
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              background 0.2s ease,
+              opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cloud-cta:hover {
+  transform: scale(1.08);
+  background: #fff;
+  box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
+}
+
+.cloud-cta:active {
+  transform: scale(0.95);
+}
