@@ -5,9 +5,9 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
-import './Hero.css';
 
 const coreShader = {
+
   vertexShader: `
     attribute float size;
     attribute vec3 customColor;
@@ -216,45 +216,46 @@ export const Hero: React.FC = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
-    <div className="hero-wrapper" ref={containerRef}>
-      <canvas ref={canvasRef} />
+    <div className="relative m-0 h-screen w-screen overflow-hidden bg-black" ref={containerRef}>
+      <canvas ref={canvasRef} className="absolute top-0 left-0 block h-full w-full" />
 
-      <nav className="navbar">
-        <a href="#" className="logo">Stellar</a>
-        <div className="nav-links">
-          <a href="#" className="nav-link">Home</a>
-          <a href="#" className="nav-link">Features</a>
-          <a href="#" className="nav-link">About</a>
-          <a href="#" className="nav-link">Contact</a>
+      <nav className="absolute top-0 left-0 z-20 flex w-full box-border items-center justify-between p-8 font-['Inter',sans-serif]">
+        <a href="#" className="text-[1.8rem] font-black text-white no-underline">Stellar</a>
+        <div className="hidden md:flex gap-8">
+          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">Home</a>
+          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">Features</a>
+          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">About</a>
+          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">Contact</a>
         </div>
         <div
-          className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`}
+          className={`z-30 flex md:hidden h-[21px] w-[30px] cursor-pointer flex-col justify-between ${isMobileMenuOpen ? 'active' : ''}`}
           onClick={toggleMobileMenu}
           id="hamburger-menu"
         >
-          <span style={isMobileMenuOpen ? { transform: 'rotate(45deg) translate(5px, 6px)' } : {}}></span>
-          <span style={isMobileMenuOpen ? { opacity: 0 } : {}}></span>
-          <span style={isMobileMenuOpen ? { transform: 'rotate(-45deg) translate(5px, -6px)' } : {}}></span>
+          <span className="block h-[3px] w-full rounded-[3px] bg-white transition-all duration-300 ease-in-out" style={isMobileMenuOpen ? { transform: 'rotate(45deg) translate(5px, 6px)' } : {}}></span>
+          <span className="block h-[3px] w-full rounded-[3px] bg-white transition-all duration-300 ease-in-out" style={isMobileMenuOpen ? { opacity: 0 } : {}}></span>
+          <span className="block h-[3px] w-full rounded-[3px] bg-white transition-all duration-300 ease-in-out" style={isMobileMenuOpen ? { transform: 'rotate(-45deg) translate(5px, -6px)' } : {}}></span>
         </div>
       </nav>
 
-      <div className={`mobile-nav ${isMobileMenuOpen ? 'active' : ''}`} id="mobile-nav">
-        <div className="close-btn" id="close-btn" onClick={toggleMobileMenu}></div>
-        <a href="#" onClick={toggleMobileMenu}>Home</a>
-        <a href="#" onClick={toggleMobileMenu}>Features</a>
-        <a href="#" onClick={toggleMobileMenu}>About</a>
-        <a href="#" onClick={toggleMobileMenu}>Contact</a>
+      <div className={`fixed top-0 z-25 flex h-screen w-[70%] max-w-[300px] flex-col items-center justify-center bg-black/90 p-8 backdrop-blur-md transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'right-0' : 'right-[-100%]'}`} id="mobile-nav">
+        <div className="absolute top-8 right-8 flex h-7.5 w-7.5 cursor-pointer items-center justify-center after:absolute after:h-[3px] after:w-full after:rotate-[-45deg] after:rounded-[3px] after:bg-white after:content-[''] before:absolute before:h-[3px] before:w-full before:rotate-[45deg] before:rounded-[3px] before:bg-white before:content-['']" id="close-btn" onClick={toggleMobileMenu}></div>
+        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>Home</a>
+        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>Features</a>
+        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>About</a>
+        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>Contact</a>
       </div>
 
-      <div className="hero-container">
-        <div className="hero-content">
-          <h1 className="hero-title">Explore The Universe</h1>
-          <p className="hero-subtitle">Experience the cosmic wonders of our universe through an interactive 3D particle simulation built with Three.js.</p>
-          <button className="cta-button">Get Started</button>
+      <div className="absolute top-0 left-0 z-10 flex h-screen w-full pointer-events-none flex-col items-center justify-center p-5 text-center text-white font-['Inter',sans-serif]">
+        <div className="max-w-[800px] pointer-events-auto animate-[fadeIn_1.5s_ease-out]">
+          <h1 className="mb-4 text-[2.5rem] md:text-[4.5rem] font-extrabold bg-linear-to-r from-[#4facfe] to-[#00f2fe] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(79,172,254,0.5)]">Explore The Universe</h1>
+          <p className="mx-auto mb-10 max-w-[600px] text-[1.1rem] md:text-[1.5rem] leading-relaxed opacity-80">Experience the cosmic wonders of our universe through an interactive 3D particle simulation built with Three.js.</p>
+          <button className="rounded-full bg-linear-to-r from-[#4facfe] to-[#00f2fe] py-4 px-9 text-[1.2rem] font-semibold text-white shadow-[0_4px_20px_rgba(79,172,254,0.4)] transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_7px_30px_rgba(79,172,254,0.6)]">Get Started</button>
         </div>
-        <div className="scroll-indicator">↓</div>
+        <div className="absolute bottom-8 left-1/2 translate-x-[-50%] animate-bounce text-2xl opacity-70">↓</div>
       </div>
     </div>
+
   );
 };
 

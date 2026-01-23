@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+
 import * as THREE from 'three';
-import './CloudSection.css';
+
 
 const cloudShader = {
   vertexShader: `
@@ -220,23 +221,24 @@ export const CloudSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="cloud-section-wrapper" ref={containerRef}>
-      <div className="cloud-canvas-container">
-        <div className="cloud-content">
-          <h2 className={`cloud-title ${scrollProgress > 0.2 && scrollProgress < 0.9 ? 'visible' : ''}`}>
+    <section className="relative flex w-full flex-col items-center overflow-hidden bg-black" ref={containerRef}>
+      <div className="sticky top-0 z-10 h-screen w-full">
+        <div className="absolute top-1/2 left-1/2 z-20 flex w-full translate-x-[-50%] translate-y-[-50%] pointer-events-none flex-col items-center justify-center p-5 text-center text-white">
+          <h2 className={`mb-8 max-w-[900px] text-[clamp(2.5rem,8vw,5.5rem)] font-extrabold leading-[1.05] tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${scrollProgress > 0.2 && scrollProgress < 0.9 ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-5 blur-[8px]'}`}>
             Say hello to the ultimate shader editor.
           </h2>
-          <p className={`cloud-description ${scrollProgress > 0.3 && scrollProgress < 0.9 ? 'visible' : ''}`}>
+          <p className={`mx-auto mb-12 max-w-[550px] text-[clamp(1rem,2vw,1.35rem)] font-normal leading-relaxed text-white/90 transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${scrollProgress > 0.3 && scrollProgress < 0.9 ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-5 blur-[8px]'}`}>
             Create, fork and publish shader graphs with the world using an intuitive and easy to use tool built for all.
           </p>
-          <button className={`cloud-cta ${scrollProgress > 0.4 && scrollProgress < 0.9 ? 'visible' : ''}`}>
+          <button className={`pointer-events-auto cursor-pointer rounded-full bg-white py-4.5 px-10 text-[1.15rem] font-bold text-black transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] hover:scale-[1.08] hover:shadow-[0_10px_40px_rgba(255,255,255,0.3)] active:scale-95 ${scrollProgress > 0.4 && scrollProgress < 0.9 ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-5 blur-[8px]'}`}>
             Open App →
           </button>
         </div>
-        <canvas ref={canvasRef} />
+        <canvas ref={canvasRef} className="block h-full w-full" />
       </div>
 
     </section>
+
   );
 };
 
