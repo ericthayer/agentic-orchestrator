@@ -1,3 +1,24 @@
+# Agentic Orchestration Template: Scalable Multi-Project AI Development
+
+This repository is optimized for **Agentic Orchestration**—a systematic approach to AI-assisted development using Spec-Driven Development (SDD) and strict architectural rules.
+
+## Using this as a Template
+
+To spin up a new project using this stack and orchestration model:
+
+1. **Clone & Init**:
+   ```bash
+   git clone <repo-url> my-project
+   cd my-project
+   sh scripts/init-orchestration.sh
+   ```
+2. **Setup Agent**:
+   Tell your AI collaborator: "Run `/setup-orchestration` to initialize rules."
+3. **Deep Dive**:
+   Read [AGENTIC_ORCHESTRATION.md](file:///Users/thayere/Documents/_DEV/threejs/AGENTIC_ORCHESTRATION.md) for the philosophy and [TEMPLATE_GUIDE.md](file:///Users/thayere/Documents/_DEV/threejs/TEMPLATE_GUIDE.md) for detailed setup steps.
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
