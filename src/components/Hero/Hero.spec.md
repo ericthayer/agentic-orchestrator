@@ -22,6 +22,7 @@ The entry point component for the landing page.
 ## 4. Visuals & Interaction
 - **Aesthetics**: High-contrast dark mode (pure black background). 
 - **Current Theme**: Purple to Pink gradient (`#6D28D9` to `#DB2777`) to align with the global brand palette.
+- **Design System**: Buttons and containers use `rounded-xl` for a more structural, modern look.
 - **Interaction**: Mouse movement subtly rotates the particle field. Bouncing arrow indicator for scroll cues.
 - **Scroll Transition**: Clicking "Get Started" triggers a smooth "zoom-out" particle animation followed by a cinematic scroll to the `CloudSection`.
 
@@ -40,7 +41,7 @@ The entry point component for the landing page.
 - [x] Custom shaders & Bloom
 - [x] Responsive Navigation
 - [x] Interaction & Animation polish
-- [ ] Smooth view-transition to CloudSection
+- [x] Smooth view-transition to CloudSection
 
 ## 8. Changelog
 - **2026-01-24**: Initial spec creation representing the current legacy state.
@@ -50,3 +51,4 @@ The entry point component for the landing page.
 - **2026-01-24**: Spread particles out by increasing base radius (45) and introducing a volumetric distribution (0.7 to 1.3 variance) for a more immersive feel.
 - **2026-01-24**: Reduced particle density (12k) and slowed down overall animation speeds for a more cinematic and less distracting background.
 - **2026-01-24**: Add smooth "zoom" scroll transition for the "Get Started" button to navigate to the CloudSection.
+- **2026-01-24**: [MANUAL SYNC] Design update: Changed button border-radius from `rounded-full` to `rounded-xl` per brand direction.
