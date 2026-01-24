@@ -1,0 +1,1 @@
+/Users/thayere/.gemini/antigravity/rules/tailwind-v4.md

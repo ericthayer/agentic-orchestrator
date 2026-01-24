@@ -1,0 +1,1 @@
+/Users/thayere/.gemini/antigravity/rules/react-19-compiler.md

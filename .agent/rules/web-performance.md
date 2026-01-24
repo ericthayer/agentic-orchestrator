@@ -1,0 +1,1 @@
+/Users/thayere/.gemini/antigravity/rules/web-performance.md
