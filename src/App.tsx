@@ -1,12 +1,14 @@
 import { Hero } from './components/Hero/Hero'
 import { CloudSection } from './components/CloudSection/CloudSection'
+import { DigitalAssetsSection } from './components/DigitalAssetsSection/DigitalAssetsSection'
 
 function App() {
   return (
-    <div className="w-full">
+    <main className="w-full">
       <Hero />
       <CloudSection />
-    </div>
+      <DigitalAssetsSection />
+    </main>
   )
 }
 
