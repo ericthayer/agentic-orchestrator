@@ -1,6 +1,7 @@
 import { Hero } from './components/Hero/Hero'
 import { CloudSection } from './components/CloudSection/CloudSection'
 import { DigitalAssetsSection } from './components/DigitalAssetsSection/DigitalAssetsSection'
+import { ContactBanner } from './components/ContactBanner/ContactBanner'
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Hero />
       <CloudSection />
       <DigitalAssetsSection />
+      <ContactBanner />
     </main>
   )
 }
