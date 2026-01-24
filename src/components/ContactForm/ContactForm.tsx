@@ -101,7 +101,7 @@ export const ContactForm: React.FC = () => {
         <button
           disabled={status === 'submitting'}
           type="submit"
-          className="w-full py-4 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-2xl font-bold flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-900/20"
+          className="w-full py-4 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl font-bold flex items-center justify-center gap-3 transition-all shadow-lg shadow-purple-900/20"
         >
           {status === 'submitting' ? (
             <motion.div

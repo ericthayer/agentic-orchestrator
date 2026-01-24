@@ -57,6 +57,8 @@ export const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -147,6 +149,7 @@ export const Hero: React.FC = () => {
 
     const particleSystem = createParticleSystem(12000, 45); // Reduced from 40k to 12k for clarity
     scene.add(particleSystem);
+    cameraRef.current = camera;
 
     // --- Animation & Interaction ---
     let mouseX = 0;
@@ -169,14 +172,22 @@ export const Hero: React.FC = () => {
     let requestRef: number;
 
     const animate = () => {
-      time += 0.002; // Slowed down from 0.005
+      time += 0.002;
 
       currentRotationX += (targetRotationX - currentRotationX) * 0.08;
       currentRotationY += (targetRotationY - currentRotationY) * 0.08;
 
       particleSystem.rotation.x = currentRotationX;
       particleSystem.rotation.y = currentRotationY;
-      particleSystem.rotation.z += 0.0005; // Slowed down from 0.002
+      particleSystem.rotation.z += 0.0005;
+
+      // Handle cinematic zoom transition
+      if (isTransitioning && cameraRef.current) {
+        cameraRef.current.position.z += (300 - cameraRef.current.position.z) * 0.05;
+        particleSystem.scale.x *= 0.98;
+        particleSystem.scale.y *= 0.98;
+        particleSystem.scale.z *= 0.98;
+      }
 
       particleSystem.material.uniforms.time.value = time;
 
@@ -217,6 +228,20 @@ export const Hero: React.FC = () => {
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
+  const handleGetStarted = () => {
+    setIsTransitioning(true);
+
+    // Smooth scroll to cloud section
+    const cloudSection = document.getElementById('cloud-section');
+    if (cloudSection) {
+      setTimeout(() => {
+        cloudSection.scrollIntoView({ behavior: 'smooth' });
+        // Reset transition state after scroll
+        setTimeout(() => setIsTransitioning(false), 1500);
+      }, 100);
+    }
+  };
+
   return (
     <div className="relative m-0 h-screen w-screen overflow-hidden bg-black" ref={containerRef}>
       <canvas ref={canvasRef} className="absolute top-0 left-0 block h-full w-full" />
@@ -252,10 +277,18 @@ export const Hero: React.FC = () => {
         <div className="max-w-[800px] pointer-events-auto animate-[fadeIn_1.5s_ease-out]">
           <h1 className="mb-4 text-[2.5rem] md:text-[4.5rem] font-extrabold bg-linear-to-r from-[#6D28D9] to-[#DB2777] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">Explore The Universe</h1>
           <p className="mx-auto mb-10 max-w-[600px] text-[1.1rem] md:text-[1.5rem] leading-relaxed opacity-90 drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">Experience the cosmic wonders of our universe through an interactive 3D particle simulation built with Three.js.</p>
-          <button className="rounded-full bg-linear-to-r from-[#6D28D9] to-[#DB2777] py-4 px-9 text-[1.2rem] font-semibold text-white shadow-[0_4px_20px_rgba(109,40,217,0.4)] transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_7px_30_rgba(109,40,217,0.6)]">Get Started</button>
+          <button
+            onClick={handleGetStarted}
+            className="rounded-xl cursor-pointer bg-linear-to-r from-[#6D28D9] to-[#DB2777] py-4 px-9 text-[1.2rem] font-semibold text-white shadow-[0_4px_20px_rgba(109,40,217,0.4)] transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_7px_30_rgba(109,40,217,0.6)] active:scale-95"
+          >
+            Get Started
+          </button>
         </div>
         <div className="absolute bottom-8 left-1/2 translate-x-[-50%] animate-bounce text-2xl opacity-70">↓</div>
       </div>
+
+      {/* Blending mask at the bottom */}
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-15 pointer-events-none" />
     </div>
 
   );
