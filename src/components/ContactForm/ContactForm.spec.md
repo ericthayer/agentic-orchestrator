@@ -23,7 +23,7 @@ A form component that takes a submission handler.
 
 ## 8. Changelog
 - **2026-01-24**: Initial spec creation.
-- **2026-01-24**: [MANUAL SYNC] Design update: Changed button border-radius from `rounded-2xl` to `rounded-xl` for consistency across the page.
+- **2026-01-24**: (MANUAL SYNC) Design update: Changed button border-radius from `rounded-2xl` to `rounded-xl` for consistency across the page.
 
 ## 4. Visuals & Interaction
 - **Aesthetics**: Dark inputs with glassmorphic borders. Subtle glow on focus.

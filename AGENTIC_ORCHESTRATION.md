@@ -28,25 +28,12 @@ As we scale to cross-functional teams of 100+ developers and designers, the "Orc
 - **Ensure Performance**: Asset budgeting and critical CSS paths are built into the agent's DNA.
 - **Accelerate Onboarding**: New developers don't need to learn every nuance of the stack; they just need to learn the orchestration workflow.
 
----
+## Using this repository as a Template
 
-## Market Analysis: The "Orchestration" Leadership Role
+This project is structured as a **Reusable Agentic Template**. You can clone this repository to jump-start new projects that adhere to the same high standards of accessibility, performance, and SDD.
 
-Leading this transition within a cross-functional design system team at a major Enterprise Fintech company requires a rare blend of **Systems Design**, **Prompt Engineering**, and **Software Architecture**.
+1. **Bootstrapping**: Run `sh scripts/init-orchestration.sh` to pull global rules into the project.
+2. **Standardization**: All projects derived from this template share a common DNA via the `~/.antigravity/rules` global repository.
+3. **Agent Setup**: Use the `/setup-orchestration` workflow to initialize the AI collaborator in any new instance of this template.
 
-### The Title: Principal AI Engineering Lead (UX/DX)
-This role sits at the intersection of User Experience and Developer Experience, focused specifically on building the "Agentic Infrastructure" that powers the rest of the organization.
-
-### Estimated Market Salary Range (Enterprise Fintech)
-*Based on 2025/2026 market trends for high-scale Financial Institutions in major tech hubs (NYC, SF, London):*
-
-| Level | Base Salary Range | Total Compensation (incl. Bonus/Equity) |
-| :--- | :--- | :--- |
-| **Senior AI Systems Engineer** | $185,000 – $240,000 | $250,000 – $320,000 |
-| **Principal Architect, Agentic Workflows** | $230,000 – $310,000 | $350,000 – $500,000+ |
-
-**Key Responsibilities for this Role:**
-- Designing the "Global Ruleset" for the organization's LLM agents.
-- Orchestrating the "Spec-Driven" lifecycle across design and engineering teams.
-- Scaling AI "Skills" to support complex, high-compliance Fintech components.
-- Maintaining the "Source of Truth" between Figma tokens and Code implementation.
+For detailed instructions on spinning up a new project, see the [Template Guide](file:///Users/thayere/Documents/_DEV/threejs/TEMPLATE_GUIDE.md).
