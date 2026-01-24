@@ -1,0 +1,1 @@
+/Users/thayere/.gemini/antigravity/rules/component-architecture.md
