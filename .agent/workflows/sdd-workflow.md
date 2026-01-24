@@ -44,3 +44,6 @@ description: Template for creating a product and technical specification for a n
 - [ ] Visual styling (Tailwind v4)
 - [ ] Interaction / Animation
 - [ ] Final Accessibility audit
+
+## 8. Changelog
+- **[TIMESTAMP]**: Initial spec creation.

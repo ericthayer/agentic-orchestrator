@@ -66,7 +66,7 @@ export const Hero: React.FC = () => {
     scene.fog = new THREE.FogExp2(0x000000, 0.01);
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 80;
+    camera.position.z = 60; // Pushed back from 80 to reduce globe footprint
 
     const renderer = new THREE.WebGLRenderer({
       canvas: canvasRef.current,
@@ -87,7 +87,7 @@ export const Hero: React.FC = () => {
       0.85 // threshold
     );
     bloomPass.threshold = 0.25;
-    bloomPass.strength = 0.6;
+    bloomPass.strength = 0.4; // Reduced from 0.6 for better legibility
     bloomPass.radius = 0.4;
     composer.addPass(bloomPass);
 
@@ -109,18 +109,20 @@ export const Hero: React.FC = () => {
         const phi = Math.acos(-1 + (2 * i) / numParticles);
         const theta = Math.sqrt(numParticles * Math.PI) * phi;
 
-        const x = radius * Math.sin(phi) * Math.cos(theta);
-        const y = radius * Math.sin(phi) * Math.sin(theta);
-        const z = radius * Math.cos(phi);
+        const r = radius * (0.7 + Math.random() * 0.6); // Spreading particles by randomizing radius
+        const x = r * Math.sin(phi) * Math.cos(theta);
+        const y = r * Math.sin(phi) * Math.sin(theta);
+        const z = r * Math.cos(phi);
 
         positions.push(x, y, z);
 
         const color = new THREE.Color();
-        const hue = (x / radius + 1.0) / 2.0;
-        color.setHSL(0.7 + hue * 0.3, 1.0, 0.6);
+        const t = (x / radius + 1.0) / 2.0;
+        const hue = 0.74 + t * 0.18; // Brand Purple (269deg) to Pink (332deg)
+        color.setHSL(hue, 0.9, 0.6);
         colors.push(color.r, color.g, color.b);
 
-        sizes.push(Math.random() * 1.5 + 0.5);
+        sizes.push(Math.random() * 1.0 + 0.3); // Slightly smaller particles for less "mass"
         phases.push(Math.random() * Math.PI * 2);
       }
 
@@ -143,7 +145,7 @@ export const Hero: React.FC = () => {
       return new THREE.Points(geometry, material);
     };
 
-    const particleSystem = createParticleSystem(40000, 25);
+    const particleSystem = createParticleSystem(12000, 45); // Reduced from 40k to 12k for clarity
     scene.add(particleSystem);
 
     // --- Animation & Interaction ---
@@ -167,14 +169,14 @@ export const Hero: React.FC = () => {
     let requestRef: number;
 
     const animate = () => {
-      time += 0.005;
+      time += 0.002; // Slowed down from 0.005
 
       currentRotationX += (targetRotationX - currentRotationX) * 0.08;
       currentRotationY += (targetRotationY - currentRotationY) * 0.08;
 
       particleSystem.rotation.x = currentRotationX;
       particleSystem.rotation.y = currentRotationY;
-      particleSystem.rotation.z += 0.002;
+      particleSystem.rotation.z += 0.0005; // Slowed down from 0.002
 
       particleSystem.material.uniforms.time.value = time;
 
@@ -222,10 +224,10 @@ export const Hero: React.FC = () => {
       <nav className="absolute top-0 left-0 z-20 flex w-full box-border items-center justify-between p-8 font-['Inter',sans-serif]">
         <a href="#" className="text-[1.8rem] font-black text-white no-underline">Stellar</a>
         <div className="hidden md:flex gap-8">
-          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">Home</a>
-          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">Features</a>
-          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">About</a>
-          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">Contact</a>
+          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(109,40,217,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#6D28D9] after:to-[#DB2777] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">Home</a>
+          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(109,40,217,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#6D28D9] after:to-[#DB2777] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">Features</a>
+          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(109,40,217,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#6D28D9] after:to-[#DB2777] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">About</a>
+          <a href="#" className="relative py-[6px] px-[3px] font-semibold text-white no-underline opacity-100 transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(109,40,217,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#6D28D9] after:to-[#DB2777] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1">Contact</a>
         </div>
         <div
           className={`z-30 flex md:hidden h-[21px] w-[30px] cursor-pointer flex-col justify-between ${isMobileMenuOpen ? 'active' : ''}`}
@@ -240,17 +242,17 @@ export const Hero: React.FC = () => {
 
       <div className={`fixed top-0 z-25 flex h-screen w-[70%] max-w-[300px] flex-col items-center justify-center bg-black/90 p-8 backdrop-blur-md transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'right-0' : 'right-[-100%]'}`} id="mobile-nav">
         <div className="absolute top-8 right-8 flex h-7.5 w-7.5 cursor-pointer items-center justify-center after:absolute after:h-[3px] after:w-full after:rotate-[-45deg] after:rounded-[3px] after:bg-white after:content-[''] before:absolute before:h-[3px] before:w-full before:rotate-[45deg] before:rounded-[3px] before:bg-white before:content-['']" id="close-btn" onClick={toggleMobileMenu}></div>
-        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>Home</a>
-        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>Features</a>
-        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>About</a>
-        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(79,172,254,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#4facfe] after:to-[#00f2fe] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>Contact</a>
+        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(109,40,217,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#6D28D9] after:to-[#DB2777] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>Home</a>
+        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(109,40,217,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#6D28D9] after:to-[#DB2777] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>Features</a>
+        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(109,40,217,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#6D28D9] after:to-[#DB2777] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>About</a>
+        <a href="#" className="relative my-6 py-2 px-1 text-2xl font-semibold text-white no-underline transition-shadow duration-300 hover:shadow-[0_0_10px_rgba(109,40,217,0.8)] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-linear-to-r after:from-[#6D28D9] after:to-[#DB2777] after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:origin-bottom-left hover:after:scale-x-1" onClick={toggleMobileMenu}>Contact</a>
       </div>
 
       <div className="absolute top-0 left-0 z-10 flex h-screen w-full pointer-events-none flex-col items-center justify-center p-5 text-center text-white font-['Inter',sans-serif]">
         <div className="max-w-[800px] pointer-events-auto animate-[fadeIn_1.5s_ease-out]">
-          <h1 className="mb-4 text-[2.5rem] md:text-[4.5rem] font-extrabold bg-linear-to-r from-[#4facfe] to-[#00f2fe] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(79,172,254,0.5)]">Explore The Universe</h1>
-          <p className="mx-auto mb-10 max-w-[600px] text-[1.1rem] md:text-[1.5rem] leading-relaxed opacity-80">Experience the cosmic wonders of our universe through an interactive 3D particle simulation built with Three.js.</p>
-          <button className="rounded-full bg-linear-to-r from-[#4facfe] to-[#00f2fe] py-4 px-9 text-[1.2rem] font-semibold text-white shadow-[0_4px_20px_rgba(79,172,254,0.4)] transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_7px_30px_rgba(79,172,254,0.6)]">Get Started</button>
+          <h1 className="mb-4 text-[2.5rem] md:text-[4.5rem] font-extrabold bg-linear-to-r from-[#6D28D9] to-[#DB2777] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">Explore The Universe</h1>
+          <p className="mx-auto mb-10 max-w-[600px] text-[1.1rem] md:text-[1.5rem] leading-relaxed opacity-90 drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">Experience the cosmic wonders of our universe through an interactive 3D particle simulation built with Three.js.</p>
+          <button className="rounded-full bg-linear-to-r from-[#6D28D9] to-[#DB2777] py-4 px-9 text-[1.2rem] font-semibold text-white shadow-[0_4px_20px_rgba(109,40,217,0.4)] transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_7px_30_rgba(109,40,217,0.6)]">Get Started</button>
         </div>
         <div className="absolute bottom-8 left-1/2 translate-x-[-50%] animate-bounce text-2xl opacity-70">↓</div>
       </div>
