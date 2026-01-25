@@ -1,3 +1,11 @@
+## [1.1.0](https://github.com/ericthayer/agentic-orchestrator/compare/v1.0.0...v1.1.0) (2026-01-25)
+
+### Features
+
+* Add an interactive journey feature with a new component, view switching, and an entry point in the hero section. ([f2cd3bd](https://github.com/ericthayer/agentic-orchestrator/commit/f2cd3bd7ce155ebfd8558d0fe773c06fc5bc30cc))
+* add case study and interactive demo ([eb5f1ed](https://github.com/ericthayer/agentic-orchestrator/commit/eb5f1ed7a13cfb5d994f8f41ea8d7c41d659ecbd))
+* refine InteractionJourney finiale ([ad3bec3](https://github.com/ericthayer/agentic-orchestrator/commit/ad3bec329f95bc966144360d7a8ae2894365cc00))
+
 ## 1.0.0 (2026-01-25)
 
 ### Features
