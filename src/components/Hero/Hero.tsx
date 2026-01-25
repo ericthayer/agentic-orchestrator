@@ -53,7 +53,11 @@ const coreShader = {
 `
 };
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  onStartJourney?: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onStartJourney }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -282,6 +286,12 @@ export const Hero: React.FC = () => {
             className="rounded-xl cursor-pointer bg-linear-to-l from-[#6D28D9] to-[#DB2777] py-4 px-9 text-[1.2rem] font-semibold text-white shadow-[0_4px_20px_rgba(109,40,217,0.4)] transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_7px_30_rgba(109,40,217,0.6)] active:scale-95"
           >
             Get Started
+          </button>
+          <button
+            onClick={onStartJourney}
+            className="rounded-xl cursor-pointer bg-transparent border-2 border-white/20 ml-4 py-4 px-9 text-[1.2rem] font-semibold text-white transition-all duration-300 hover:bg-white/10 hover:border-white/40 active:scale-95"
+          >
+            Our Journey
           </button>
         </div>
         <div className="absolute bottom-8 left-1/2 translate-x-[-50%] animate-bounce text-2xl opacity-70">↓</div>
