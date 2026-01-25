@@ -40,12 +40,17 @@ Implement a robust testing and release pipeline to ensure visual consistency, ac
 - [x] **Scaffolding Storybook**: Install and initialize Storybook with React + Vite.
 - [x] **Tailwind v4 Integration**: Configure Storybook to correctly load `src/index.css`.
 - [x] **Chromatic Setup**: Install `chromatic` package and create GitHub Action workflow.
-- [x] **Semantic Release Setup**: Install `semantic-release` and configure `.releaserc` or `package.json` config.
+- [x] **Semantic Release Setup**: Install `semantic-release` and configure `.releaserc` with custom `releaseRules`.
 - [x] **Workflow Creation**: 
     - [x] `chromatic.yml` for PR checks.
     - [x] `release.yml` for semantic releases on `main`.
 - [x] **Verification**: Run local Storybook, run test Chromatic build, verify semantic release dry-run.
+- [x] **Page Assemblage**: Create `AppLanding` story to showcase the full page.
+- [x] **PR Automation**: Created `pull_request_template.md` and `SEMANTIC_VERSIONING.md`.
 
 ## 8. Changelog
 - **2026-01-24**: Initial spec creation for Storybook/Chromatic/Semantic Release integration.
 - **2026-01-24 16:28**: All core features implemented and verified with a local Storybook build.
+- **2026-01-24 17:05**: Created `AppLanding` story to assemble the full home page.
+- **2026-01-24 17:07**: Refined `semantic-release` rules for automated versioning based on commit types.
+- **2026-01-24 17:10**: Added Pull Request Template and Semantic Versioning documentation.
