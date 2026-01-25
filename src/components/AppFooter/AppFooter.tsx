@@ -213,7 +213,7 @@ export const AppFooter: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-gray-500 text-xs">
-            © 2026 Agentic Inc. All rights reserved. Built with orchestration.
+            © 2026 Agentic Inc. v{__APP_VERSION__}. All rights reserved. Built with orchestration.
           </p>
           <div className="flex gap-8 text-gray-500 text-xs font-medium">
             <a href="#" className="hover:text-white transition-colors">Terms</a>
