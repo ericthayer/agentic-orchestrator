@@ -6,26 +6,29 @@ The `InteractiveJourney` component is a dedicated demo experience that tells the
 The goal is to provide a "behind the scenes" look at how the Agentic Brain (.agent/rules) and Specs (.spec.md) directly influence the production code.
 
 ## 2. Usage & Interface
-This component will likely be a full-page or large-section module that manages its own step-based state.
+This component is a full-page module that manages its own step-based state and provides a cinematic exit.
 
 ```tsx
 <InteractiveJourney 
-  onComplete={() => console.log("Journey Finished")}
+  onExit={() => console.log("Journey Finished")}
 />
 ```
 
 ## 3. Technical Implementation
-- **State Management**: `useState` for current step (0-4). `useContext` if we need to share with the global overlay.
-- **Logic**: A "Step Engine" that maps each narrative phase to a specific 3D scene configuration (e.g., swapping geometry from "Vibe Cube" to "Orchestrated Icosahedron").
-- **Dependencies**: Three.js, React-Three-Fiber, Framer Motion for text transitions.
+- **State Management**: `useState` for current step (0-3). `useRef` for animation state (stepRef, finishingRef) to prevent stale closures.
+- **Logic**: A "Step Engine" that maps each phase to a 3D geometry morph and a Camera Z-space transition.
+- **Dependencies**: Three.js, Framer Motion for text and warp transitions.
 
 ## 4. Visuals & Interaction
 - **Aesthetics**: "Cyber-Lab" / "Blueprints" style. Dark mode, neon accents, grid overlays.
-- **Animations**: Smooth transitions between "Steps." The 3D background morphs as the user progresses.
+- **Animations**: Z-space "Walking Forward" effect. The camera glides through space as the user progresses.
+- **Interaction**: Dual-mode navigation:
+    - **Scroll**: Scroll Up (Forward), Scroll Down (Backward).
+    - **Keyboard**: Arrow keys (Right/Up for Forward, Left/Down for Backward).
 - **Step 1: The Vibe**: A simple, unoptimized spinning cube (The Chaos of Prompts).
 - **Step 2: The Brain**: Introducing the `.agent/rules`. The cube gains structure and a grid (The Rule of Law).
-- **Step 3: The Spec**: A virtual "Blueprint" (The Spec.md contract) overlaying the 3D scene.
-- **Step 4: The Symphony**: The full icosahedron/composer UI mockup (The Final Orchestrated Output).
+- **Step 3: The Spec**: Geometric shift to Icosahedron (The SDD contract).
+- **Step 4: The Symphony**: High-speed "Warp Drive" plunge through a portal of color.
 
 ## 5. Accessibility (WCAG 2.1)
 - [ ] Keyboard Navigation (Left/Right arrows for steps)
@@ -45,4 +48,7 @@ This component will likely be a full-page or large-section module that manages i
 - [ ] Audit for Accessibility and Perf.
 
 ## 8. Changelog
-- **2026-01-24**: Initial spec creation in response to Case Study victory.
+- **2026-01-24**: Initial spec creation.
+- **2026-01-24**: ORCHESTRATION SYNC - Implemented Z-space "Walking Forward" motion.
+- **2026-01-24**: ORCHESTRATION SYNC - Added Scroll (Wheel) and Keyboard (Arrows) navigation.
+- **2026-01-24**: ORCHESTRATION SYNC - Added "Warp Drive" ending animation and automatic home transition.

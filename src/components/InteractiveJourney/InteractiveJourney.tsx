@@ -73,6 +73,7 @@ interface InteractiveJourneyProps {
 
 export const InteractiveJourney: React.FC<InteractiveJourneyProps> = ({ onExit }) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isFinishing, setIsFinishing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef<number>(0);
@@ -83,13 +84,35 @@ export const InteractiveJourney: React.FC<InteractiveJourneyProps> = ({ onExit }
   const wireRef = useRef<THREE.Mesh | null>(null);
   const lightRef = useRef<THREE.PointLight | null>(null);
   const stepRef = useRef(currentStep);
+  const finishRef = useRef(false);
 
   useEffect(() => {
     stepRef.current = currentStep;
   }, [currentStep]);
 
-  const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
-  const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
+  useEffect(() => {
+    finishRef.current = isFinishing;
+  }, [isFinishing]);
+
+  const nextStep = () => {
+    if (currentStep === steps.length - 1) {
+      handleFinish();
+      return;
+    }
+    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  };
+
+  const prevStep = () => {
+    if (isFinishing) return;
+    setCurrentStep((prev) => Math.max(prev - 1, 0));
+  };
+
+  const handleFinish = () => {
+    setIsFinishing(true);
+    setTimeout(() => {
+      onExit?.();
+    }, 2000); // 2 second cinematic zoom
+  };
 
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current) return;
@@ -151,10 +174,14 @@ export const InteractiveJourney: React.FC<InteractiveJourneyProps> = ({ onExit }
     const animate = () => {
       const time = performance.now() * 0.001;
       const activeStep = stepRef.current;
+      const finishing = finishRef.current;
 
       // Smooth Camera Z transition (Walking Forward)
-      const targetZ = 4 - (activeStep * 2.5); // Moves "forward" each step
-      camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetZ, 0.05);
+      let targetZ = 4 - (activeStep * 2.5);
+      if (finishing) {
+        targetZ = -100; // Plunge MUCH deeper into space
+      }
+      camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetZ, finishing ? 0.05 : 0.05);
 
       if (meshRef.current) {
         meshRef.current.rotation.y += activeStep === 0 ? 0.02 : 0.01;
@@ -162,7 +189,12 @@ export const InteractiveJourney: React.FC<InteractiveJourneyProps> = ({ onExit }
         meshRef.current.position.y = Math.sin(time) * 0.1;
 
         // Keep objects relative to the forward movement or slightly offset
-        meshRef.current.position.z = THREE.MathUtils.lerp(meshRef.current.position.z, -activeStep * 2.5, 0.05);
+        const meshTargetZ = finishing ? -40 : -activeStep * 2.5;
+        meshRef.current.position.z = THREE.MathUtils.lerp(meshRef.current.position.z, meshTargetZ, finishing ? 0.02 : 0.05);
+
+        if (finishing) {
+          meshRef.current.scale.setScalar(THREE.MathUtils.lerp(meshRef.current.scale.x, 0, 0.05));
+        }
       }
 
       if (wireRef.current) {
@@ -188,19 +220,17 @@ export const InteractiveJourney: React.FC<InteractiveJourneyProps> = ({ onExit }
     };
     window.addEventListener('resize', handleResize);
 
-    // 7. Scroll Navigation
+    // 7. Interaction Listeners
     let lastScrollTime = 0;
-    const scrollCooldown = 1500; // time in ms before next scroll action
+    const scrollCooldown = 1500;
 
     const handleWheel = (e: WheelEvent) => {
+      if (finishRef.current) return;
       const now = Date.now();
       if (now - lastScrollTime < scrollCooldown) return;
-
-      if (Math.abs(e.deltaY) < 30) return; // Threshold to prevent accidental jitter
+      if (Math.abs(e.deltaY) < 30) return;
 
       if (e.deltaY > 0) {
-        // Scroll down usually means moving "forward" in most web apps, but user specifically asked:
-        // "Scroll up goes forward and scroll down moves you backward"
         prevStep();
         lastScrollTime = now;
       } else if (e.deltaY < 0) {
@@ -209,11 +239,22 @@ export const InteractiveJourney: React.FC<InteractiveJourneyProps> = ({ onExit }
       }
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (finishRef.current) return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+        nextStep();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+        prevStep();
+      }
+    };
+
     window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKeyDown);
       cancelAnimationFrame(requestRef.current);
       cubeGeo.dispose();
       material.dispose();
@@ -282,49 +323,72 @@ export const InteractiveJourney: React.FC<InteractiveJourneyProps> = ({ onExit }
       {/* Content Card */}
       <div className="relative z-10 w-full max-w-4xl px-8 flex flex-col items-center">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={currentStep}
-            initial={{ opacity: 0, scale: 0.8, rotateX: 20 }}
-            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-            exit={{ opacity: 0, scale: 1.2, rotateX: -20 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-[#0c0c14]/40 backdrop-blur-md p-8 lg:p-12 rounded-[2.5rem] border border-white/5 shadow-2xl flex flex-col items-center text-center max-w-2xl perspective-1000"
-          >
-            <div className="p-4 bg-gray-900/50 rounded-2xl mb-6 ring-1 ring-white/10">
-              {steps[currentStep].icon}
-            </div>
+          {!isFinishing && (
+            <motion.div
+              key={currentStep}
+              initial={{ opacity: 0, scale: 0.8, rotateX: 20 }}
+              animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+              exit={{ opacity: 0, scale: 1.5, rotateX: -40, z: 100 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-[#0c0c14]/40 backdrop-blur-md p-8 lg:p-12 rounded-[2.5rem] border border-white/5 shadow-2xl flex flex-col items-center text-center max-w-2xl perspective-1000"
+            >
+              <div className="p-4 bg-gray-900/50 rounded-2xl mb-6 ring-1 ring-white/10">
+                {steps[currentStep].icon}
+              </div>
 
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4 tracking-tight">
-              {steps[currentStep].title}
-            </h2>
+              <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4 tracking-tight">
+                {steps[currentStep].title}
+              </h2>
 
-            <p className="text-lg text-gray-400 mb-10 leading-relaxed">
-              {steps[currentStep].description}
-            </p>
+              <p className="text-lg text-gray-400 mb-10 leading-relaxed">
+                {steps[currentStep].description}
+              </p>
 
-            <div className="flex gap-4">
-              <button
-                onClick={prevStep}
-                disabled={currentStep === 0}
-                className="p-4 rounded-xl border border-white/5 hover:bg-white/5 disabled:opacity-20 transition-all text-white active:scale-95"
-                aria-label="Previous step"
-              >
-                <ArrowLeft className="w-6 h-6" />
-              </button>
+              <div className="flex gap-4">
+                <button
+                  onClick={prevStep}
+                  disabled={currentStep === 0}
+                  className="p-4 rounded-xl border border-white/5 hover:bg-white/5 disabled:opacity-20 transition-all text-white active:scale-95"
+                  aria-label="Previous step"
+                >
+                  <ArrowLeft className="w-6 h-6" />
+                </button>
 
-              <button
-                onClick={nextStep}
-                disabled={currentStep === steps.length - 1}
-                className="px-8 py-4 bg-purple-600 rounded-xl font-bold text-white hover:bg-purple-500 transition-all flex items-center gap-3 shadow-lg shadow-purple-900/20 active:scale-95 disabled:bg-gray-800 disabled:opacity-50"
-                aria-label="Next step"
-              >
-                {currentStep === steps.length - 1 ? "Quest Complete" : "Continue Quest"}
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
-          </motion.div>
+                <button
+                  onClick={nextStep}
+                  className="px-8 py-4 bg-purple-600 rounded-xl font-bold text-white hover:bg-purple-500 transition-all flex items-center gap-3 shadow-lg shadow-purple-900/20 active:scale-95 disabled:bg-gray-800 disabled:opacity-50"
+                  aria-label="Next step"
+                >
+                  {currentStep === steps.length - 1 ? "Quest Complete" : "Continue Quest"}
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
+
+      {/* Warp / Exit Portal Overlay */}
+      <AnimatePresence>
+        {isFinishing && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-50 bg-white"
+            transition={{ duration: 0.8, ease: "easeIn" }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 mix-blend-multiply opacity-50" />
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 2, opacity: 1 }}
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <div className="w-96 h-96 rounded-full bg-purple-500 blur-[100px] opacity-30" />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Decorative Accents */}
       <div className="absolute bottom-12 left-12 p-4 border-l border-purple-500/30 font-mono text-[10px] text-gray-500 uppercase tracking-widest hidden lg:block">
