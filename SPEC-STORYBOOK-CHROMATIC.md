@@ -54,3 +54,4 @@ Implement a robust testing and release pipeline to ensure visual consistency, ac
 - **2026-01-24 17:05**: Created `AppLanding` story to assemble the full home page.
 - **2026-01-24 17:07**: Refined `semantic-release` rules for automated versioning based on commit types.
 - **2026-01-24 17:10**: Added Pull Request Template and Semantic Versioning documentation.
+- **2026-01-24 17:13**: Implemented dynamic version display via `vite.config.ts` and `AppFooter`.
