@@ -150,7 +150,7 @@ export const DigitalAssetsSection: React.FC<DigitalAssetsSectionProps> = ({
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen bg-[#050505] text-white flex items-center overflow-hidden px-6 lg:px-24"
+      className="relative bg-[#050505] text-white flex items-center overflow-hidden pt-24 pb-12 lg:py-20 px-6 lg:px-24"
       aria-label="Digital Assets Section"
     >
       {/* Three.js Background */}

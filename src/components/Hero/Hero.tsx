@@ -279,7 +279,7 @@ export const Hero: React.FC = () => {
           <p className="mx-auto mb-10 max-w-[600px] text-[1.1rem] md:text-[1.5rem] leading-relaxed opacity-90 drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">Experience the cosmic wonders of our universe through an interactive 3D particle simulation built with Three.js.</p>
           <button
             onClick={handleGetStarted}
-            className="rounded-xl cursor-pointer bg-linear-to-r from-[#6D28D9] to-[#DB2777] py-4 px-9 text-[1.2rem] font-semibold text-white shadow-[0_4px_20px_rgba(109,40,217,0.4)] transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_7px_30_rgba(109,40,217,0.6)] active:scale-95"
+            className="rounded-xl cursor-pointer bg-linear-to-l from-[#6D28D9] to-[#DB2777] py-4 px-9 text-[1.2rem] font-semibold text-white shadow-[0_4px_20px_rgba(109,40,217,0.4)] transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_7px_30_rgba(109,40,217,0.6)] active:scale-95"
           >
             Get Started
           </button>
