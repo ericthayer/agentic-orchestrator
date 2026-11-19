@@ -1,50 +1,51 @@
 # SPEC: AppFooter
 
 ## 1. Goal & Intent
-Create a comprehensive footer that matches the professional layout of the provided reference image while elevating the aesthetic to match our "Orchestrated" design system (deep dark, neon accents, glassmorphism). It features an interactive "lava-lamp" Three.js background.
+Close the page with the brand, the mission and links to real things only: the docs in the repo, the repo itself and an example built from the template. A quiet Three.js "lava-lamp" backdrop in the brand colours ties it to the rest of the page.
 
 ## 2. Usage & Interface
-The final section of the application.
+The final element of the application. No props.
 
 ```tsx
 <AppFooter />
 ```
 
-## 3. Technical Implementation
-- **Three.js Background**: A dedicated canvas rendering large, blurry "blobs" (lava-lamp effect). 
-- **Physics Engine**: Use high-speed interpolation (`lerp`) for tight mouse tracking.
-- **Magnetic Scaling**: Blobs dynamically expand when in close proximity to the cursor.
-- **Newsletter**: Managed via local React state.
-- **Styling**: Tailwind v4 with glassmorphic elements.
-- **Dependencies**: Three.js, Lucide-react.
+## 3. Content
+- **Brand**: "Agentic Orchestrator" (`font-display`, slightly condensed).
+- **Mission**: "Turn AI agents from autocomplete into disciplined collaborators: they build from the same rules, specs and skills every time."
+- **GitHub icon link** → repo, with `aria-label`.
+- **Docs** column (`<nav aria-labelledby>`), GitHub `blob/main` URLs:
+  - Orchestration guide → `AGENTIC_ORCHESTRATION.md`
+  - Template guide → `TEMPLATE_GUIDE.md`
+  - Case study → `CASE_STUDY.md`
+  - Changelog → `CHANGELOG.md`
+- **Project** column: GitHub repo; Example: Design Great Prompts (https://design-great-prompts.netlify.app/).
+- **Bottom line**: "Agentic Orchestrator v{`__APP_VERSION__`} — an open template for learning with AI agents."
+- No newsletter, social links, legal links, fake company or copyright entity.
 
-## 4. Visuals & Interaction
-- **Aesthetics**: Deep dark background (#050505). High-end translucent UI columns.
-- **Lava-Lamp Effect**: 
-    - 5 large spheres with heavy blur for a liquid-void feel.
-    - Colors: Neon Purple, Electric Blue, Hot Pink, Deep Indigo.
-    - Mouse Interaction: Strong magnetic attraction. Blobs "clump" and scale up based on cursor position.
-- **Layout**: 
-    - Branding col (Gradient Logo + Tagline).
-    - Multi-column navigation (Product, Company, Resources).
-    - Integrated Newsletter form with glassmorphic borders and glowing CTA.
+## 4. Technical Implementation
+- **Three.js background**: a canvas (`aria-hidden`, `pointer-events-none`, `opacity-40`, `blur-[100px]`) behind the content.
+- 4 blobs sharing one `SphereGeometry`; colours `#ffb547` (amber cue) and `#7aa2ff` (blue signal) via `new THREE.Color`, low opacity (0.22) and emissive intensity (0.35) on transparent clear (page shows `bg-ink` #080c18).
+- Slow drift plus a gentle (lerp 0.01) attraction toward the cursor; small proximity swell.
+- **Reduced motion**: `matchMedia('(prefers-reduced-motion: reduce)')` → render a single still frame, no rAF loop, no mousemove listener; re-render a still frame on resize.
+- Dependencies: three, lucide-react.
 
-## 5. Accessibility (WCAG 2.1)
-- [x] Links have descriptive titles.
-- [x] Labeled form inputs.
-- [x] High-contrast visibility (3.5+ for decorative, 4.5+ for text).
-- [x] Motion: Assets properly disposed of on unmount.
+## 5. Accessibility (WCAG 2.1 AA)
+- [x] Decorative canvas is `aria-hidden`.
+- [x] Link groups are `<nav>` landmarks labelled by their `<h2>` headings.
+- [x] External links open in a new tab with `rel="noopener noreferrer"` and visually hidden "(opens in a new tab)"; icon link has `aria-label`, icon is `aria-hidden`.
+- [x] `text-mute` / `text-paper` on `bg-ink` ≥ 4.5:1; hover uses `text-signal`.
+- [x] Reduced motion respected.
 
 ## 6. Performance
-- [x] Shared Geometry: Multiple meshes share a single `baseGeometry` to minimize buffer overhead.
-- [x] Disposal Logic: Full cleanup of scene, renderer, and geometries on component unmount.
-- [x] Optimized Blur: Balanced canvas opacity (50%) and blur (100px) for smooth 60fps performance.
+- [x] Shared geometry across all blobs.
+- [x] Full disposal on unmount: geometry, materials, renderer; listeners removed; rAF cancelled.
+- [x] Pixel ratio capped at 2.
 
 ## 7. Implementation Checklist
-- [x] Initial scaffolding (Folder & Spec)
-- [x] Three.js "Lava-Lamp" Background Logic
-- [x] High-Reaction Mouse Physics
-- [x] Magnetic Scaling Interaction
-- [x] Footer Column Layout (Tailwind v4)
-- [x] Newsletter Form Component
-- [x] Final Accessibility & Disposal audit
+- [x] Brand + mission column with GitHub link
+- [x] Docs and Project link columns (real URLs only)
+- [x] Version line from `__APP_VERSION__`
+- [x] Lava-lamp retuned to amber/blue, subtler, reduced-motion aware
+- [x] Removed newsletter/alert, fake links and `@ts-ignore`
+- [x] Story imports from `@storybook/react-vite`

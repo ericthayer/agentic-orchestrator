@@ -36,4 +36,4 @@ This project is structured as a **Reusable Agentic Template**. You can clone thi
 2. **Standardization**: All projects derived from this template share a common DNA via the `~/.antigravity/rules` global repository.
 3. **Agent Setup**: Use the `/setup-orchestration` workflow to initialize the AI collaborator in any new instance of this template.
 
-For detailed instructions on spinning up a new project, see the [Template Guide](file:///Users/thayere/Documents/_DEV/threejs/TEMPLATE_GUIDE.md).
+For detailed instructions on spinning up a new project, see the [Template Guide](./TEMPLATE_GUIDE.md).

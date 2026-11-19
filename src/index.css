@@ -1,1 +1,61 @@
 @import "tailwindcss";
+
+/*
+ * Agentic Orchestrator — brand tokens
+ *
+ * Metaphor: an orchestral score. Rules, specs and skills are parallel
+ * "staves" that every agent plays from. The page is the dark concert hall
+ * (so the Three.js scenes read), amber is the conductor's cue (primary
+ * action, the one thing to look at), and blue is the signal colour for
+ * links, focus and secondary emphasis.
+ *
+ * Use these utilities (bg-ink, text-paper, text-cue, border-staff, font-display …)
+ * instead of raw hex values in components.
+ */
+@theme {
+  /* Surfaces */
+  --color-ink: #080c18;        /* page / hall background (midnight, not black) */
+  --color-ink-raised: #0f1526; /* panels that sit on ink */
+  --color-staff: #222b47;      /* hairlines, borders, score lines */
+
+  /* Text */
+  --color-paper: #eef1f8;      /* primary text */
+  --color-mute: #8c95b2;       /* secondary text (≥ 4.5:1 on ink) */
+
+  /* Accents */
+  --color-cue: #ffb547;        /* primary action / the one emphasis per view */
+  --color-cue-deep: #e8962a;   /* cue hover / pressed */
+  --color-signal: #7aa2ff;     /* links, focus rings, secondary emphasis */
+
+  /* Type */
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

@@ -14,13 +14,15 @@ function App() {
   }
 
   return (
-    <main className="w-full">
-      <Hero onStartJourney={() => setView('journey')} />
-      <CloudSection />
-      <DigitalAssetsSection />
-      <ContactBanner />
+    <>
+      <main className="w-full">
+        <Hero onStartJourney={() => setView('journey')} />
+        <CloudSection />
+        <DigitalAssetsSection />
+        <ContactBanner />
+      </main>
       <AppFooter />
-    </main>
+    </>
   )
 }
 
