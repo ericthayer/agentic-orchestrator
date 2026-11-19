@@ -26,3 +26,7 @@ dist-ssr
 *storybook.log
 storybook-static
 .env
+
+# taste-skill check output
+shots
+.taste-skill
