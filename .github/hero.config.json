@@ -1,0 +1,81 @@
+{
+  "name": "agentic-orchestrator",
+  "layout": "split",
+  "ratio": "cover",
+  "wordmark": "Agentic Orchestrator",
+  "headline": [
+    "Your agent.",
+    "Your team's",
+    "*standards.*"
+  ],
+  "descriptor": [
+    "Rules, specs and skills that tell",
+    "your coding agent how to build."
+  ],
+  "alt": "Agentic Orchestrator: your agent, your team's standards. Rules, specs and skills that tell your coding agent how to build.",
+  "chips": [
+    {
+      "label": "rule files",
+      "value": "9"
+    },
+    {
+      "label": "component specs",
+      "value": "7"
+    }
+  ],
+  "visual": {
+    "type": "code",
+    "title": "terminal",
+    "tilt": true,
+    "code": "# start a project from the template\ngit clone …/agentic-orchestrator my-project\ncd my-project\nsh scripts/init-orchestration.sh\nnpm install\n\n# then ask your agent\n/setup-orchestration\n/sdd-workflow"
+  },
+  "background": "solid grid",
+  "accentStyle": "color",
+  "grain": 0.04,
+  "font": {
+    "family": "Big Shoulders Display",
+    "google": "Big Shoulders Display"
+  },
+  "mono": {
+    "family": "Geist Mono",
+    "google": "Geist Mono"
+  },
+  "themes": {
+    "light": {
+      "bg": "#ebe6d8",
+      "panel": "#ebe6d8",
+      "fg": "#0a0d14",
+      "muted": "#4a5366",
+      "accent": "#1c4fc2",
+      "accent2": "#f0b94d",
+      "line": "rgba(10,13,20,0.12)",
+      "lineStrong": "rgba(10,13,20,0.35)",
+      "windowBg": "#0a0d14",
+      "windowFg": "#e9edf3",
+      "windowMuted": "#8891a1",
+      "windowLine": "rgba(233,237,243,0.14)"
+    },
+    "dark": {
+      "bg": "#0a0d14",
+      "panel": "#0a0d14",
+      "fg": "#e9edf3",
+      "muted": "#a3abb9",
+      "accent": "#f0b94d",
+      "accent2": "#5ab9fc",
+      "line": "rgba(233,237,243,0.08)",
+      "lineStrong": "rgba(233,237,243,0.28)",
+      "windowBg": "#131824",
+      "windowFg": "#e9edf3",
+      "windowMuted": "#8891a1",
+      "windowLine": "rgba(233,237,243,0.14)"
+    }
+  },
+  "output": {
+    "dir": ".github/assets",
+    "basename": "readme-hero",
+    "formats": [
+      "webp"
+    ]
+  },
+  "split": 48
+}

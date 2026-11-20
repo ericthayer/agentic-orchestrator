@@ -39,4 +39,4 @@ This template is built for **Spec-Driven Development**. Every new feature should
 - **Node**: v18+ recommended.
 
 ---
-For a deeper dive into why we use this model, see [AGENTIC_ORCHESTRATION.md](file:///Users/thayere/Documents/_DEV/threejs/AGENTIC_ORCHESTRATION.md).
+For a deeper dive into why we use this model, see [AGENTIC_ORCHESTRATION.md](./AGENTIC_ORCHESTRATION.md).
