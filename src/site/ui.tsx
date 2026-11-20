@@ -43,6 +43,23 @@ export function Rise({ i, children, className }: { i: number; children: ReactNod
   );
 }
 
+/** A slow band of words between sections. Decorative, large screens only, still under reduced motion. */
+export function Ticker({ words }: { words: string[] }) {
+  return (
+    <div className="ticker" aria-hidden="true">
+      <div className="ticker__track">
+        {[0, 1].map((copy) => (
+          <ul className="ticker__set" key={copy}>
+            {words.concat(words).map((w, i) => (
+              <li key={`${w}-${i}`}>{w}</li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function TemplateButton() {
   return (
     <a className="btn btn--primary" href={REPO_URL} target="_blank" rel="noreferrer">

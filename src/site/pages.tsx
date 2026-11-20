@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, useTransition } from './transition';
-import { Arrow, Lines, LiquidType, PinnedChapters, Rise, StackRow, TemplateButton, Window, type Chapter } from './ui';
+import { Arrow, Lines, LiquidType, PinnedChapters, Rise, StackRow, TemplateButton, Ticker, Window, type Chapter } from './ui';
 import { vars } from './vars';
 import { REPO_URL } from './routes';
 
@@ -58,53 +58,54 @@ export function Home() {
       <section className="sec hero hero--stage" aria-labelledby="hero-title" data-enter>
         <div className="wrap hero__wrap">
           <div className="hero__head hero-text">
-          <div className="hero__title">
-            <Rise i={0}>
-              <p className="pill mono">Template v{__APP_VERSION__}</p>
-            </Rise>
-            <Lines id="hero-title" className="h1" lines={['Agentic orchestration', 'for frontend teams']} start={1} />
-          </div>
-          <div className="hero__aside">
-            <Rise i={3}>
-              <p className="lead">
-                A Vite and React 19 starter where nine rule files and a spec for every component tell your coding agent how to
-                build, before it writes a line.
-              </p>
-            </Rise>
-            <Rise i={4} className="btn-row">
-              <TemplateButton />
-              <Link className="btn btn--secondary" to="/case-study">
-                Read the case study
-              </Link>
-            </Rise>
-          </div>
+            <Lines id="hero-title" className="h1 hero__title" lines={['Agentic orchestration', 'for frontend teams']} start={1} />
+            <div className="hero__aside">
+              <Rise i={2} className="hero__stamp">
+                <p className="stamp mono">Template v{__APP_VERSION__}</p>
+              </Rise>
+              <Rise i={3} className="hero__lead">
+                <p className="lead">
+                  A Vite and React 19 starter where nine rule files and a spec for every component tell your coding agent how to
+                  build, before it writes a line.
+                </p>
+              </Rise>
+              <Rise i={4} className="btn-row">
+                <TemplateButton />
+                <Link className="btn btn--secondary" to="/case-study">
+                  Read the case study
+                </Link>
+              </Rise>
+            </div>
           </div>
           <div className="hero__stage" data-visual aria-hidden="true" />
         </div>
       </section>
 
-      <section className="sec sec--surface" aria-labelledby="holds">
-        <div className="wrap split">
-          <div className="split__text">
+      <Ticker words={['Rules', 'Specs', 'Skills', 'Agents', 'Components']} />
+
+      <section className="sec sec--surface ships" aria-labelledby="holds">
+        <div className="wrap">
+          <div className="ships__head">
             <h2 id="holds">What ships in the template</h2>
             <p className="lead measure">Clone it and your agent starts with your team's standards already loaded.</p>
-            <dl className="facts">
-              {HOLDS.map((h) => (
-                <div className="facts__row" key={h.name}>
-                  <dt>
-                    <span className="facts__figure">{h.figure}</span> {h.name}
-                  </dt>
-                  <dd>{h.line}</dd>
-                </div>
+          </div>
+          <div className="ships__body">
+            <ul className="plates">
+              {HOLDS.map((h, i) => (
+                <li className={`plate plate--${['blue', 'gold', 'paper'][i]}`} key={h.name}>
+                  <div className="plate__head">
+                    <span className="plate__figure">{h.figure}</span>
+                    <h3 className="plate__name">{h.name}</h3>
+                  </div>
+                  <p>{h.line}</p>
+                </li>
               ))}
-            </dl>
+            </ul>
+            <div className="ships__tree">
+              <RepoTree />
+            </div>
           </div>
-          <div className="split__visual">
-            <RepoTree />
-          </div>
-          <div className="split__foot">
-            <StackRow />
-          </div>
+          <StackRow />
         </div>
       </section>
 
@@ -196,9 +197,6 @@ export function Method() {
     <>
       <section className="sec hero hero--side" aria-labelledby="hero-title" data-enter>
         <div className="wrap hero__side">
-          <Rise i={0}>
-            <p className="pill mono">01 Method</p>
-          </Rise>
           <Lines id="hero-title" className="h1" lines={['Three layers that', 'direct a coding agent']} start={1} />
           <Rise i={3}>
             <p className="lead measure">
@@ -222,7 +220,7 @@ export function Method() {
         chapters={CHAPTERS}
       />
 
-      <section className="sec" id="setup" aria-labelledby="setup-title">
+      <section className="sec sec--accent" id="setup" aria-labelledby="setup-title">
         <div className="wrap split split--even">
           <div className="split__text">
             <h2 id="setup-title">Start a project in four commands</h2>
@@ -238,7 +236,7 @@ export function Method() {
           </div>
           <ul className="gains">
             {GAINS.map((g, i) => (
-              <li className="card" key={g.title}>
+              <li className="card plate" key={g.title}>
                 <span className="mono card__n">0{i + 1}</span>
                 <h3 className="card__title">{g.title}</h3>
                 <p>{g.body}</p>
@@ -376,13 +374,15 @@ function Journey() {
               document.getElementById(`stage-tab-${next}`)?.focus();
             }}
           >
-            <span className="mono">0{i + 1}</span>
-            {s.title}
+            <span className="mono journey__n">0{i + 1}</span>
+            <span className="journey__t">{s.title}</span>
           </button>
         ))}
       </div>
-      <div className="journey__panel" role="tabpanel" id="stage-panel" aria-labelledby={`stage-tab-${step}`}>
-        <StageShape step={step} angle={angle} />
+      <div className="journey__panel plate" role="tabpanel" id="stage-panel" aria-labelledby={`stage-tab-${step}`}>
+        <div className="journey__plot">
+          <StageShape step={step} angle={angle} />
+        </div>
         <p className="journey__body" key={step}>
           {STAGES[step].body}
         </p>
@@ -404,20 +404,18 @@ export function CaseStudy() {
       <section className="sec hero hero--stage" aria-labelledby="hero-title" data-enter>
         <div className="wrap hero__wrap">
           <div className="hero__head hero-text">
-          <div className="hero__title">
-            <Rise i={0}>
-              <p className="pill mono">02 Case study, a 5-minute read</p>
-            </Rise>
-            <Lines id="hero-title" className="h1" lines={['A 3D design system', 'built with an agent']} start={1} />
-          </div>
-          <div className="hero__aside">
-            <Rise i={3}>
-              <p className="lead">
-                At CoBank, a designer and a coding agent replaced loose prompts with rule files and specs to ship accessible
-                Three.js components. This is how it went.
-              </p>
-            </Rise>
-          </div>
+            <Lines id="hero-title" className="h1 hero__title" lines={['A 3D design system', 'built with an agent']} start={1} />
+            <div className="hero__aside">
+              <Rise i={2} className="hero__stamp">
+                <p className="stamp mono">A 5-minute read</p>
+              </Rise>
+              <Rise i={3} className="hero__lead">
+                <p className="lead">
+                  At CoBank, a designer and a coding agent replaced loose prompts with rule files and specs to ship accessible
+                  Three.js components. This is how it went.
+                </p>
+              </Rise>
+            </div>
           </div>
           <div className="hero__stage" data-visual aria-hidden="true" />
         </div>
@@ -430,7 +428,7 @@ export function CaseStudy() {
         </div>
       </section>
 
-      <section className="sec" aria-labelledby="result">
+      <section className="sec sec--paper" aria-labelledby="result">
         <div className="wrap split split--even">
           <div className="split__text">
             <h2 id="result">Accessibility written into the rules</h2>
@@ -444,9 +442,9 @@ export function CaseStudy() {
           </div>
           <div className="split__rows">
             <h3 className="label">Four components shipped this way</h3>
-            <ul className="rows">
+            <ul className="rows tiles">
               {BUILT.map((b) => (
-                <li key={b.name} className="rows__row">
+                <li key={b.name} className="rows__row plate">
                   <span className="rows__name mono">{b.name}</span>
                   <span className="rows__value">{b.line}</span>
                 </li>
@@ -513,9 +511,6 @@ export function Components() {
     <>
       <section className="sec hero hero--list" aria-labelledby="hero-title" data-enter>
         <div className="wrap">
-          <Rise i={0}>
-            <p className="pill mono">03 Components</p>
-          </Rise>
           <Lines id="hero-title" className="h1" lines={['Seven components,', 'each with a spec']} start={1} />
           <div className="catalog">
             <ol className="catalog__list">
@@ -572,7 +567,7 @@ export function Components() {
               </li>
             </ul>
           </div>
-          <div className="card card--visual">
+          <div className="card card--visual plate">
             <ReleaseDiagram />
           </div>
         </div>
@@ -622,7 +617,7 @@ function ContactForm() {
   });
 
   return (
-    <form className="form" ref={form} onSubmit={submit} noValidate>
+    <form className="form plate" ref={form} onSubmit={submit} noValidate>
       <div className="field">
         <label htmlFor="f-name">Full name</label>
         <input type="text" autoComplete="name" {...field('name')} />
@@ -676,9 +671,6 @@ export function Contact() {
       <section className="sec hero hero--form" aria-labelledby="hero-title" data-enter>
         <div className="wrap split split--even">
           <div className="split__text">
-            <Rise i={0}>
-              <p className="pill mono">04 Contact</p>
-            </Rise>
             <Lines id="hero-title" className="h1" lines={['Consulting for your', 'agent workflow']} start={1} />
             <Rise i={3}>
               <p className="lead measure">

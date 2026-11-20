@@ -40,11 +40,11 @@ const TIMING: Record<TransitionKind, { out: number; in: number }> = {
 };
 
 const POSES: Record<RouteId, { wide: Pose; narrow: Pose }> = {
-  home: { wide: { x: 0, y: -0.37, size: 0.46, alpha: 1 }, narrow: { x: 0, y: -0.46, size: 0.44, alpha: 1 } },
-  method: { wide: { x: 0.46, y: 0, size: 0.37, alpha: 0.95 }, narrow: { x: 0, y: -0.5, size: 0.42, alpha: 0.8 } },
-  'case-study': { wide: { x: 0, y: -0.36, size: 0.38, alpha: 0.95 }, narrow: { x: 0, y: -0.52, size: 0.3, alpha: 0.8 } },
-  components: { wide: { x: 0.56, y: 0.5, size: 0.26, alpha: 0.9 }, narrow: { x: 0, y: -0.78, size: 0.3, alpha: 0 } },
-  contact: { wide: { x: -0.56, y: -0.58, size: 0.3, alpha: 0.9 }, narrow: { x: 0, y: -0.82, size: 0.34, alpha: 0 } },
+  home: { wide: { x: 0, y: -0.46, size: 0.38, alpha: 1 }, narrow: { x: 0, y: -0.46, size: 0.44, alpha: 1 } },
+  method: { wide: { x: 0.66, y: -0.22, size: 0.28, alpha: 0.95 }, narrow: { x: 0, y: -0.5, size: 0.42, alpha: 0.8 } },
+  'case-study': { wide: { x: 0, y: -0.46, size: 0.34, alpha: 0.95 }, narrow: { x: 0, y: -0.52, size: 0.3, alpha: 0.8 } },
+  components: { wide: { x: 0.74, y: 0.5, size: 0.24, alpha: 0.9 }, narrow: { x: 0, y: -0.78, size: 0.3, alpha: 0 } },
+  contact: { wide: { x: -0.18, y: -0.68, size: 0.3, alpha: 0.9 }, narrow: { x: 0, y: -0.82, size: 0.34, alpha: 0 } },
   play: { wide: { x: 0, y: 0, size: 0.72, alpha: 1 }, narrow: { x: 0, y: 0, size: 0.72, alpha: 1 } },
 };
 
@@ -202,8 +202,11 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     const instance = field.current;
     if (!instance) return;
     const apply = () => {
-      const pose = (closing ? CLOSE_POSE : POSES[fieldRoute.id])[window.innerWidth < 900 ? 'narrow' : 'wide'];
-      instance.setPose(pose);
+      const wide = window.innerWidth >= 900;
+      const base = (closing ? CLOSE_POSE : POSES[fieldRoute.id])[wide ? 'wide' : 'narrow'];
+      // On a short desktop window the hero text runs lower, so the object sits lower and a little smaller.
+      const short = !closing && wide && window.innerHeight < 820 && (fieldRoute.id === 'home' || fieldRoute.id === 'case-study');
+      instance.setPose(short ? { ...base, y: base.y - 0.1, size: base.size - 0.03 } : base);
     };
     instance.setFormation(fieldRoute.formation, fieldRoute.id === 'play' ? 1.3 : 1.6);
     apply();
