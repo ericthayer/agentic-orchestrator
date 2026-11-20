@@ -646,7 +646,7 @@ function ContactForm() {
       </div>
       <div className="field">
         <label htmlFor="f-message">Message</label>
-        <textarea rows={4} {...field('message')} />
+        <textarea rows={3} {...field('message')} />
         {errors.message && (
           <p className="field__error" id="e-message">
             {errors.message}

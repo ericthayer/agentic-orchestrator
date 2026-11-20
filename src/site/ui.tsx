@@ -162,7 +162,9 @@ export function Footer({ from }: { from: RouteId }) {
             <span className="mono">{next.index}</span> Next page
           </p>
           <Link to={next.path} kind={kind} className="close__link">
-            <h2 className="close__word">{next.label}</h2>
+            <h2 className="close__word" style={vars({ '--chars': next.label.length })}>
+              {next.label}
+            </h2>
             <span className="close__arrow" aria-hidden="true">
               <svg viewBox="0 0 64 64" width="64" height="64">
                 <path d="M8 32h46M36 14l18 18-18 18" fill="none" stroke="currentColor" strokeWidth="3" />

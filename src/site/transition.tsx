@@ -40,7 +40,7 @@ const TIMING: Record<TransitionKind, { out: number; in: number }> = {
 };
 
 const POSES: Record<RouteId, { wide: Pose; narrow: Pose }> = {
-  home: { wide: { x: 0, y: -0.46, size: 0.38, alpha: 1 }, narrow: { x: 0, y: -0.46, size: 0.44, alpha: 1 } },
+  home: { wide: { x: 0, y: -0.46, size: 0.38, alpha: 1 }, narrow: { x: 0, y: -0.68, size: 0.4, alpha: 1 } },
   method: { wide: { x: 0.66, y: -0.22, size: 0.28, alpha: 0.95 }, narrow: { x: 0, y: -0.5, size: 0.42, alpha: 0.8 } },
   'case-study': { wide: { x: 0, y: -0.46, size: 0.34, alpha: 0.95 }, narrow: { x: 0, y: -0.52, size: 0.3, alpha: 0.8 } },
   components: { wide: { x: 0.74, y: 0.5, size: 0.24, alpha: 0.9 }, narrow: { x: 0, y: -0.78, size: 0.3, alpha: 0 } },
