@@ -1,0 +1,8 @@
+# SPA fallback: the History API router (src/site/transition.tsx) needs each
+# route served by index.html on direct load or refresh. Listed per route, not
+# /*, so unknown paths still get a real 404. Add a line when adding a route.
+/method       /index.html  200
+/case-study   /index.html  200
+/components   /index.html  200
+/contact      /index.html  200
+/play         /index.html  200
